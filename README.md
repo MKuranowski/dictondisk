@@ -57,3 +57,6 @@ Comparison to the vanilla dict
 | d.update([other])            |   ✔️    |      ✔️       |
 | d.values()                   |   ✔️    |      ✔️       |
 | Preserve insertion order     |   ✔️    |      ❌      |
+| bool(d)                      |   ✔️    |      ✔️       |
+| d1 == d2                     |   ✔️    |      ❌      |
+| d1 != d2                     |   ✔️    |      ❌      |
