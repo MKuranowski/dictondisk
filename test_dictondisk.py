@@ -1,4 +1,5 @@
 import dictondisk
+import random
 import pytest
 import os
 
@@ -82,6 +83,60 @@ def test_get():
 
     assert t.get(52566) == None
     assert t.get(-2, "VΣЯY ПIᄃΣ") == "VΣЯY ПIᄃΣ"
+
+def test_copy():
+    t1 = dictondisk.DictOnDisk(vanilla_dict)
+    t2 = t1.copy()
+
+    assert t1.folder.name != t2.folder.name
+
+    for k, v in t1.items(): assert t2[k] == v
+    for k, v in t2.items(): assert t1[k] == v
+
+def test_fromkeys():
+    # Check default value
+    t = dictondisk.DictOnDisk.fromkeys(vanilla_dict)
+
+    for key in vanilla_dict: assert t[key] == None
+    for key in t: assert key in vanilla_dict
+
+    # Check custom value
+    t = dictondisk.DictOnDisk.fromkeys(vanilla_dict, "🖲️")
+
+    for key in vanilla_dict: assert t[key] == "🖲️"
+    for key in t: assert key in vanilla_dict
+
+def test_pop():
+    t = dictondisk.DictOnDisk(vanilla_dict)
+
+    # Check proper popping of values
+    v = t.pop((1, .5), None)
+
+    assert v == "lorem"
+    assert (1, .5) not in t
+
+    # Check proper returning of default
+    v = t.pop("654", "🍔")
+
+    assert v == "🍔"
+
+    # Check rasing of KeyError without default
+    with pytest.raises(KeyError):
+        v = t.pop(32156)
+
+    # Check raising TypeError on more-then-one-defualt
+    with pytest.raises(TypeError):
+        v = t.pop(-1, None, "🍿")
+
+    assert -1 in t
+
+def test_popitem():
+    t = dictondisk.DictOnDisk(vanilla_dict)
+
+    k, v = t.popitem()
+
+    assert k in vanilla_dict
+    assert v == vanilla_dict[k]
 
 def test_view_keys():
     pass

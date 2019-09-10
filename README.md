@@ -46,13 +46,13 @@ Comparison to the vanilla dict
 | key not in d                 |   ✔️    |      ✔️       |
 | iter(d)                      |   ✔️    |      ✔️       |
 | d.clear()                    |   ✔️    |      ✔️       |
-| d.copy()                     |   ✔️    |      ❌      |
-| d.fromkeys()                 |   ✔️    |      ❌      |
+| d.copy()                     |   ✔️    |      ✔️       |
+| d.fromkeys()                 |   ✔️    |      ✔️       |
 | d.get(key[, default])        |   ✔️    |      ✔️       |
 | d.items()                    |   ✔️    |      ✔️       |
 | d.keys()                     |   ✔️    |      ✔️       |
-| d.pop(key[, default])        |   ✔️    |      ❌      |
-| d.popitem()                  |   ✔️    |      ❌      |
+| d.pop(key[, default])        |   ✔️    |      ✔️       |
+| d.popitem()                  |   ✔️    |      ✔️       |
 | d.setdefault(key[, default]) |   ✔️    |      ❌      |
 | d.update([other])            |   ✔️    |      ✔️       |
 | d.values()                   |   ✔️    |      ✔️       |

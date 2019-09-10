@@ -1,3 +1,4 @@
+from copy import copy
 import tempfile
 import pickle
 import os
@@ -27,16 +28,16 @@ class DictOnDiskView:
 
     def __len__(self):
         """
-        An exact amount of items inside the parent DiskOnDisk.
+        An exact amount of items inside the parent DictOnDisk.
         Will count duplicate values, if they are under different keys.
 
-        If you do not need the exact number, use the parents DiskOnDisk.approx_len() method.
+        If you do not need the exact number, use the parents DictOnDisk.approx_len() method.
         """
         return len(self.parent)
 
     def __contains__(self, i):
         """
-        Check if a given item is inside the DiskOnDiskView.
+        Check if a given item is inside the DictOnDiskView.
         """
         # Keys & Items view check if the key is in the parent by parent.__contains__,
         # But for values the view has to implement its own check
@@ -72,7 +73,7 @@ class DictOnDiskView:
 
     def __iter__(self):
         """
-        Iterates over requested stuff from the parent DiskOnDisk
+        Iterates over requested stuff from the parent DictOnDisk
         """
         # iterate over each .pkl file
         for file in os.scandir(self.parent.folder.name):
@@ -101,14 +102,14 @@ class DictOnDiskView:
                 elif self.intrest == "items":
                     yield (item_k, item_v)
 
-class DiskOnDisk:
+class DictOnDisk:
     """An implementation of dict that stores stuff inside a temporary directory"""
 
     def __init__(self, data={}, **kwargs):
         """
         Create a dictionary held in a TemporaryDirectory.
 
-        Params are the same as for the DiskOnDisk.update method:
+        Params are the same as for the DictOnDisk.update method:
         First one can be a dict or any iterable of (key, value) pairs to insert into the _FileDict;
         Others have to be keyword arguments, that will also get inserted into the created _FileDict.
         """
@@ -116,7 +117,7 @@ class DiskOnDisk:
         self.update(data, **kwargs)
 
     def __repr__(self):
-        return "<DiskOnDisk object at {!r}>".format(self.folder.name)
+        return "<DictOnDisk object at {!r}>".format(self.folder.name)
 
     def __del__(self):
         """Cleaunp the temporary folder on object removal"""
@@ -133,7 +134,7 @@ class DiskOnDisk:
         """
         An exact amount of items inside this dictionary.
         Requires opening every pickled file to check how many items are inside each file.
-        If you don't need the exact amount, use DiskOnDisk.approx_len()
+        If you don't need the exact amount, use DictOnDisk.approx_len()
         """
         count = 0
 
@@ -255,7 +256,7 @@ class DiskOnDisk:
 
     def __contains__(self, k):
         """
-        Checks if given key is inside the DiskOnDisk
+        Checks if given key is inside the DictOnDisk
         Creates a hash for the key, finds the corresponding file (immediately returning False if it does not exist),
         Unpickles the file, and checks if the exact key is inside the file.
         """
@@ -314,49 +315,49 @@ class DiskOnDisk:
 
     def keys(self):
         """
-        Returns a DiskOnDiskView for keys of this DiskOnDisk.
+        Returns a DictOnDiskView for keys of this DictOnDisk.
 
-        Only 3 things can be done with a DiskOnDiskView:
-        1. Length of given DiskOnDiskView (`len` method)
-        2. Iterating over DiskOnDiskView (`for _ in` operator or `iter` method)
-        3. Checking if a thing is inside the DiskOnDiskView (`in` operator)
+        Only 3 things can be done with a DictOnDiskView:
+        1. Length of given DictOnDiskView (`len` method)
+        2. Iterating over DictOnDiskView (`for _ in` operator or `iter` method)
+        3. Checking if a thing is inside the DictOnDiskView (`in` operator)
 
-        DiskOnDiskView follows any changes made to the parent DiskOnDisk.
+        DictOnDiskView follows any changes made to the parent DictOnDisk.
         """
-        return DiskOnDiskView(self, "keys")
+        return DictOnDiskView(self, "keys")
 
     def values(self):
         """
-        Returns a DiskOnDiskView for values of this DiskOnDisk.
+        Returns a DictOnDiskView for values of this DictOnDisk.
 
-        Only 3 things can be done with a DiskOnDiskView:
-        1. Length of given DiskOnDiskView (`len` method)
-        2. Iterating over DiskOnDiskView (`for _ in` operator or `iter` method)
-        3. Checking if a thing is inside the DiskOnDiskView (`in` operator)
+        Only 3 things can be done with a DictOnDiskView:
+        1. Length of given DictOnDiskView (`len` method)
+        2. Iterating over DictOnDiskView (`for _ in` operator or `iter` method)
+        3. Checking if a thing is inside the DictOnDiskView (`in` operator)
 
-        DiskOnDiskView follows any changes made to the parent DiskOnDisk.
+        DictOnDiskView follows any changes made to the parent DictOnDisk.
         """
 
-        return DiskOnDiskView(self, "values")
+        return DictOnDiskView(self, "values")
 
     def items(self):
         """
-        Returns a DiskOnDiskView for items (key, value pairs) of this DiskOnDisk.
+        Returns a DictOnDiskView for items (key, value pairs) of this DictOnDisk.
 
-        Only 3 things can be done with a DiskOnDiskView:
-        1. Length of given DiskOnDiskView (`len` method)
-        2. Iterating over DiskOnDiskView (`for _ in` operator or `iter` method)
-        3. Checking if a thing is inside the DiskOnDiskView (`in` operator)
+        Only 3 things can be done with a DictOnDiskView:
+        1. Length of given DictOnDiskView (`len` method)
+        2. Iterating over DictOnDiskView (`for _ in` operator or `iter` method)
+        3. Checking if a thing is inside the DictOnDiskView (`in` operator)
 
-        DiskOnDiskView follows any changes made to the parent DiskOnDisk.
+        DictOnDiskView follows any changes made to the parent DictOnDisk.
         """
 
-        return DiskOnDiskView(self, "items")
+        return DictOnDiskView(self, "items")
 
     def update(self, other, **kwargs):
         """
-        Add items from other containers to the given DiskOnDisk.
-        If a key is already in the DiskOnDisk, it will be overwriten.
+        Add items from other containers to the given DictOnDisk.
+        If a key is already in the DictOnDisk, it will be overwriten.
 
         The first argument can be a dict-like thing (has to have the .items() method),
         Or any other iterable container of (key, value) pairs.
@@ -385,3 +386,113 @@ class DiskOnDisk:
     def approx_len(self):
         """An approximation for the length: amount of files inside the temporary directory"""
         return len(os.listdir(self.folder.name))
+
+    def copy(self):
+        """Creates a shallow copy of this dictondisk"""
+
+        new = self.__class__()
+
+        for k, v in self.items():
+            new[copy(k)] = copy(v)
+
+        return new
+
+    @classmethod
+    def fromkeys(cls, iterable, value=None):
+        new = cls()
+
+        for i in iterable:
+            new[i] = value
+
+        return new
+
+    def pop(self, key, *defaults):
+        """
+        Check if key exists in the dictondisk,
+        If yes, remove it from dict and return its value; otherwise return default.
+        If default was not provided, raise KeyError.
+        """
+        # Only 1 default can be passed
+        if len(defaults) > 1:
+            raise TypeError(
+                "DictOnDisk.pop() expected at most 2 arguments, got {}".format(
+                    1+len(defaults)
+            ))
+
+        # Create a hash of the key
+        khash = hash(key)
+        fname = str(khash) + ".pkl"
+
+        # no file exist: key not in dictondisk
+        if not os.path.exists(self._path(fname)):
+            # return default, if provided, otherwise raise KeyError
+            if len(defaults) == 1:
+                return defaults[0]
+
+            else:
+                raise KeyError(key)
+
+        # read the items from the file
+        with open(self._path(fname), "rb") as f:
+            obj = pickle.load(f)
+
+        # if key is inside pickled file,
+        # get the value and remove it from obj
+        if key in obj:
+            value = obj[key]
+            del obj[key]
+
+            # if obj still has other items, pickle it
+            if len(obj) > 0:
+                with open(self._path(fname), "wb") as f:
+                    pickle.dump(obj, f)
+
+            # otherwise remove the file
+            else:
+                os.remove(self._path(fname))
+
+            return value
+
+        else:
+            # return default, if provided, otherwise raise KeyError
+            if len(defaults) == 1:
+                return defaults[0]
+
+            else:
+                raise KeyError(key)
+
+    def popitem(self):
+        """
+        Remove and return an arbitrary (key, value) pair
+        If dictondisk is empty, raises KeyError.
+        """
+        # Pick a random file
+        fname = None
+        with os.scandir(self.folder.name) as fpicker:
+
+            for i in fpicker:
+                # Only consider .pkl files
+                if i.name.endswith(".pkl"):
+                    fname = i.name
+                    break
+
+            else:
+                raise KeyError("popitem(): dictondisk is empty")
+
+        # read the items from the file
+        with open(self._path(fname), "rb") as f:
+            obj = pickle.load(f)
+
+        # get an (key, value) from pickled dict
+        key, value = obj.popitem()
+
+        # if obj still has other items, pickle it
+        if len(obj) > 0:
+            with open(self._path(fname), "wb") as f:
+                pickle.dump(obj, f)
+
+        # otherwise remove the file
+        else:
+            os.remove(self._path(fname))
+
+        return key, value
