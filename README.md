@@ -58,5 +58,5 @@ Comparison to the vanilla dict
 | d.values()                   |   ✔️    |      ✔️       |
 | Preserve insertion order     |   ✔️    |      ❌      |
 | bool(d)                      |   ✔️    |      ✔️       |
-| d1 == d2                     |   ✔️    |      ❌      |
-| d1 != d2                     |   ✔️    |      ❌      |
+| d1 == d2                     |   ✔️    |      ✔️       |
+| d1 != d2                     |   ✔️    |      ✔️       |

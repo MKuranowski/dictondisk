@@ -138,6 +138,30 @@ def test_popitem():
     assert k in vanilla_dict
     assert v == vanilla_dict[k]
 
+def test_bool():
+    t = dictondisk.DictOnDisk()
+    assert bool(t) == False
+
+    t.update(vanilla_dict)
+    assert bool(t) == True
+
+def test_eq():
+    t = dictondisk.DictOnDisk()
+    assert t == []
+    assert t == {}
+
+    t.update(vanilla_dict)
+
+    assert t == vanilla_dict
+    assert t != {}
+
+    t = dictondisk.DictOnDisk()
+    t[1] = "1"
+    t[2] = "2"
+
+    assert t == [(1, "1"), (2, "2")]
+    assert t != [(1, "1")]
+
 def test_view_keys():
     pass
 

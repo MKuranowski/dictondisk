@@ -302,6 +302,38 @@ class DictOnDisk:
 
             yield from obj
 
+    def __bool__(self):
+        if self.approx_len() > 0: return True
+        else: return False
+
+    def __eq__(self, other):
+        # `other` has items method - assume it's a dict-like obj
+        if hasattr(other, "items"):
+
+            for k, v in self.items():
+                if k not in other or other[k] != v:
+                    return False
+
+            for k, v in other.items():
+                if k not in self or self[k] != v:
+                    return False
+
+            return True
+
+        # no `items` method -
+        # other has to be an iterabale with (key, value) pairs
+        else:
+
+            for k, v in self.items():
+                if (k, v) not in other:
+                    return False
+
+            for k, v in other:
+                if k not in self or self[k] != v:
+                    return False
+
+            return True
+
     def get(self, k, fallback=None):
         """
         Get a value corresponding for the given key from the dictionary,
