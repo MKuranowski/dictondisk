@@ -162,6 +162,15 @@ def test_eq():
     assert t == [(1, "1"), (2, "2")]
     assert t != [(1, "1")]
 
+def test_setdefault():
+    t = dictondisk.DictOnDisk(vanilla_dict)
+
+    assert t.setdefault(0, "aaaaa") == 1337
+    assert t.setdefault(89, "darkness") == "darkness"
+
+    assert t.setdefault((33, 12.23)) == "ipsum"
+    assert t.setdefault("🏯") == None
+
 def test_view_keys():
     pass
 

@@ -528,3 +528,16 @@ class DictOnDisk:
             os.remove(self._path(fname))
 
         return key, value
+
+    def setdefault(self, key, default=None):
+        """
+        If `key` is inside dictondisk, return its value.
+        If not, set its value to `default` and return `default`
+        `default` defaults to None
+        """
+
+        try:
+            return self[key]
+        except KeyError:
+            self[key] = default
+            return default

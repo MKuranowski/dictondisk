@@ -38,6 +38,7 @@ Comparison to the vanilla dict
 
 |            Action            | dict() | DictOnDisk() |
 |------------------------------|--------|--------------|
+| Preserve insertion order     |   ✔️    |      ❌      |
 | len(d)                       |   ✔️    |      ✔️       |
 | d[key]                       |   ✔️    |      ✔️       |
 | d[key] = value               |   ✔️    |      ✔️       |
@@ -53,10 +54,9 @@ Comparison to the vanilla dict
 | d.keys()                     |   ✔️    |      ✔️       |
 | d.pop(key[, default])        |   ✔️    |      ✔️       |
 | d.popitem()                  |   ✔️    |      ✔️       |
-| d.setdefault(key[, default]) |   ✔️    |      ❌      |
+| d.setdefault(key[, default]) |   ✔️    |      ✔️       |
 | d.update([other])            |   ✔️    |      ✔️       |
 | d.values()                   |   ✔️    |      ✔️       |
-| Preserve insertion order     |   ✔️    |      ❌      |
 | bool(d)                      |   ✔️    |      ✔️       |
 | d1 == d2                     |   ✔️    |      ✔️       |
 | d1 != d2                     |   ✔️    |      ✔️       |
