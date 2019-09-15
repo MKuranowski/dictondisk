@@ -5,7 +5,7 @@ import os
 
 __title__ = "dictondisk"
 __description__ = "Implementation of a dictionary in a temporary directory"
-__version__ = "1.2"
+__version__ = "1.3"
 
 __url__ = "https://github.com/MKuranowski/dictondisk"
 __author__ = "Mikołaj Kuranowski"
